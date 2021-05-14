@@ -1,8 +1,10 @@
 import React from 'react'
 import "./SidebarRow.css"
 import { Avatar } from '@material-ui/core'
+import { useStateValue } from './StateProvider'
 
 function SidebarRow({ src, Icon, title }) {
+
     return (
         <div className="sidebarRow">
            {src && <Avatar src={src} />}

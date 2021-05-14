@@ -8,13 +8,15 @@ import ChatIcon from '@material-ui/icons/Chat';
 import StorefrontIcon from '@material-ui/icons/Storefront';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import { ExpandMoreOutlined } from "@material-ui/icons";
+import { useStateValue } from "./StateProvider";
 
 function Sidebar() {
+  const [{user}, dispatch] = useStateValue()
   return (
     <div className="sidebar">
      <SidebarRow
-        src="https://images.carandbike.com/bike-images/large/bmw/s-1000-rr/bmw-s-1000-rr.webp?v=7"
-        title="sujai"
+        src={user.photoURL}
+        title={user.displayName}
       />
       <SidebarRow Icon={LocalHospitalIcon} title="COVID-19 Information Center"
       />
