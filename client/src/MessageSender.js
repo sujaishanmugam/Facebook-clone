@@ -6,12 +6,22 @@ import PhotoLibraryIcon from "@material-ui/icons/PhotoLibrary";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import { useStateValue } from "./StateProvider";
 import db from "./firebase";
-import firebase from "firebase"
+import firebase from "firebase";
 
 function MessageSender() {
-  const [{user}, dispatch] = useStateValue()
+  const [{ user }, dispatch] = useStateValue();
   const [input, setInput] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [image, setImage] = useState(null)
+
+
+  const handleChange = (e) => {
+    if (e.target.files[0]) {
+        setImage(e.target.files[0])
+    }
+}
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
     db.collection("posts").add({
@@ -19,8 +29,11 @@ function MessageSender() {
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       profilePic: user.photoURL,
       username: user.displayName,
-      image: imageUrl
-    })
+      image: imageUrl,
+    });
+    setImageUrl('')
+    setInput('')
+    setImage(null)
   };
 
   return (
@@ -35,10 +48,9 @@ function MessageSender() {
             placeholder={`What's on your mind? ${user.displayName}`}
           />
           <input
-            type="text"
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
-            placeholder="image URL {Optional} "
+            type="file"
+            className="messageSender__fileSelector"
+            onChange={handleChange}
           />
           <button onClick={handleSubmit} type="submit">
             Hidden submit
